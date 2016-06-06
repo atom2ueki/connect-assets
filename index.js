@@ -16,6 +16,7 @@ var connectAssets = module.exports = function (options, configureCallback) {
   options.helperContext.js = assets.helper(tagWriters.js, "js");
   options.helperContext.jsInline  = assets.helper(tagWriters.jsInline, "js");
   options.helperContext.assetPath = assets.helper(tagWriters.noop);
+  options.helperContext.globalConfig = assets.helper(tagWriters.noop);
 
   if (configureCallback) {
     configureCallback(assets);
