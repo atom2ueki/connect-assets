@@ -2,6 +2,7 @@ var url = require("url");
 var fs = require("fs");
 var Mincer = require("mincer");
 var Assets = require("./lib/assets");
+var Variables = require("./lib/variables");
 
 var connectAssets = module.exports = function (options, configureCallback) {
   options = parseOptions(options || {});
@@ -16,7 +17,7 @@ var connectAssets = module.exports = function (options, configureCallback) {
   options.helperContext.js = assets.helper(tagWriters.js, "js");
   options.helperContext.jsInline  = assets.helper(tagWriters.jsInline, "js");
   options.helperContext.assetPath = assets.helper(tagWriters.noop);
-  options.helperContext.globalConfig = assets.helper(tagWriters.noop);
+  options.helperContext.globalConfig = variables.helper(tagWriters.global);
 
   if (configureCallback) {
     configureCallback(assets);
@@ -108,4 +109,5 @@ var tagWriters = {
   js: function (url, contentProvider, attr) { return '<script src="' + url + '"' + pasteAttr(attr) + '></script>'; },
   jsInline : function (url, contentProvider, attr) { return '<script' + pasteAttr(attr) + '>' + contentProvider() + '</script>'; },
   noop: function (url) { return url; },
+  global: function (data) { return data; },
 };
